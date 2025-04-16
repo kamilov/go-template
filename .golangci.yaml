@@ -9,19 +9,42 @@ formatters:
         - prefix(github.com/kamilov/go-template)
     goimports:
       local-prefixes: github.com/kamilov/go-template
+    golines:
+      max-len: 120
+      tab-len: 2
   enable:
     - gci
     - goimports
-    - gofmt
-    - gofumpt
     - golines
 
 linters:
   default: none
   settings:
+    govet:
+      enable-all: true
+      settings:
+        shadow:
+          strict: true
+    cyclop:
+      max-complexity: 30
+      package-average: 10.0
+    errcheck:
+      check-type-assertions: true
+    funlen:
+      lines: 100
+      statements: 50
+    gochecksumtype:
+      default-signifies-exhaustive: true
+    inamedparam:
+      skip-single-param: true
     loggercheck:
       slog: true
-
+    sloglint:
+      no-global: all
+      msg-style: lowercased
+      context: scope
+    usetesting:
+      os-temp-dir: true
   enable:
     - asasalint
     - asciicheck
@@ -120,3 +143,17 @@ linters:
     - wrapcheck
     - wsl
     - zerologlint
+
+  exclusions:
+    rules:
+      - path: '(.+)_test\.go'
+        linters:
+          - cyclop
+          - err113
+          - forcetypeassert
+          - funlen
+          - gochecknoglobals
+          - gochecknoinits
+          - goconst
+          - lll
+          - wrapcheck
