@@ -1,0 +1,16 @@
+version: 3
+
+vars:
+  LOCAL_BIN: ./.bin
+
+  # TOOLS VERSIONS
+  GOLANGCI_LINT_VERSION: v2.1.2
+
+tasks:
+  tools:
+    desc: "install required (for development) binaries"
+    cmds:
+      - mkdir -p "{{.LOCAL_BIN}}"
+      - GOBIN="{{.LOCAL_BIN}}" curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b {{.LOCAL_BIN}} {{.GOLANGCI_LINT_VERSION}}
+    status:
+      - test -f "{{.LOCAL_BIN}}/golangci-lint"
